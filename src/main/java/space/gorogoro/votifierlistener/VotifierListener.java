@@ -47,8 +47,8 @@ public class VotifierListener extends JavaPlugin implements Listener{
     try {
       FileConfiguration config = getConfig();
       Vote vote = event.getVote();
-      String userName = vote.getUsername();
 
+      String userName = vote.getUsername();
       Pattern pattern = Pattern.compile("^[_a-zA-Z0-9]{3,16}$");
       Matcher matcher = pattern.matcher(userName);
       if(!matcher.matches()) {
@@ -56,6 +56,11 @@ public class VotifierListener extends JavaPlugin implements Listener{
       }
 
       String serviceName = vote.getServiceName();
+      String serviceSha256 = getSha256(serviceName);
+      if(serviceSha256 == null) {
+        return;
+      }
+
       String msg = config.getString("broadcast-message");
       msg = msg.replace("%name%", userName);
       msg = msg.replace("%service%", serviceName);
@@ -69,7 +74,7 @@ public class VotifierListener extends JavaPlugin implements Listener{
         int offlineVoteLimitRows = config.getInt("offline-vote-limit-rows");
         String offlineVoteKey = "offline-vote-list";
         List<String> list = config.getStringList(offlineVoteKey);
-        String line = String.format("%s,%s", userName, getSha256(serviceName));
+        String line = String.format("%s,%s", userName, serviceSha256);
         if(!list.contains(line)) {
           list.add(line);
           Collections.sort(list);
