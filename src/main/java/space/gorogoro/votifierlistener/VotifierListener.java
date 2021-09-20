@@ -52,12 +52,14 @@ public class VotifierListener extends JavaPlugin implements Listener{
       Pattern pattern = Pattern.compile("^[_a-zA-Z0-9]{3,16}$");
       Matcher matcher = pattern.matcher(userName);
       if(!matcher.matches()) {
+        getLogger().warning("Invalid username. (" + userName + ")");
         return;
       }
 
       String serviceName = vote.getServiceName();
       String serviceSha256 = getSha256(serviceName);
       if(serviceSha256 == null) {
+        getLogger().warning("Invalid service name. (" + serviceName + ")");
         return;
       }
 
