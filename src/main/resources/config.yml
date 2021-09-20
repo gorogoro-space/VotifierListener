@@ -1,0 +1,9 @@
+vote-message: '&6投票ありがとうございます(*´ω｀*)'
+broadcast-message: '&6%name%さんが%service%にて投票しました。プレゼントが渡されます'
+vote-command-list:
+  - 'give %name% diamond 3'
+  - 'gacha ticket %name%'
+  - 'money give %name% 1000'
+offline-vote-message: '&6投票ありがとうございました。プレゼントを送付しました(*´ω｀*)'
+offline-vote-limit-rows: 1500
+offline-vote-list:

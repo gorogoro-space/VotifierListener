@@ -1,0 +1,7 @@
+name: VotifierListener
+version: 1.0
+api-version: 1.15
+description: VotifierListener.
+author: kubotan
+main: space.gorogoro.votifierlistener.VotifierListener
+depend: [Votifier]
