@@ -4,6 +4,6 @@ vote-command-list:
   - 'give %name% diamond 3'
   - 'gacha ticket %name%'
   - 'money give %name% 1000'
-offline-vote-message: '&6投票ありがとうございました。プレゼントを送付しました(*´ω｀*)'
+offline-vote-message: '&6投票ありがとうございました。オフライン時に投票されたプレゼントを送付しました(*´ω｀*)'
 offline-vote-limit-rows: 1500
 offline-vote-list:

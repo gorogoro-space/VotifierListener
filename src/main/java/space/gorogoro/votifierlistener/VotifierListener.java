@@ -120,7 +120,7 @@ public class VotifierListener extends JavaPlugin implements Listener{
       }
 
       if (list.size() != newList.size()) {
-        p.sendMessage(colorize(config.getString("vote-message")));
+        p.sendMessage(colorize(config.getString("offline-vote-message")));
         config.set("offline-vote-list", newList);
         saveConfig();
       }
