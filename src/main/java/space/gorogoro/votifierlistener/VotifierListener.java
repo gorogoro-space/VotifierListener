@@ -74,17 +74,17 @@ public class VotifierListener extends JavaPlugin implements Listener{
         p.sendMessage(colorize(config.getString("vote-message")));
       } else {
         int offlineVoteLimitRows = config.getInt("offline-vote-limit-rows");
-        String offlineVoteKey = "offline-vote-list";
-        List<String> list = config.getStringList(offlineVoteKey);
+        List<String> list = config.getStringList("offline-vote-list");
         String line = String.format("%s,%s", userName, serviceSha256);
         if(!list.contains(line)) {
           list.add(line);
           Collections.sort(list);
           if(list.size() <= offlineVoteLimitRows) {
-            config.set(offlineVoteKey, list);
+            config.set("offline-vote-list", list);
           } else {
-            config.set(offlineVoteKey, list.subList(0, offlineVoteLimitRows - 1));
+            config.set("offline-vote-list", list.subList(0, offlineVoteLimitRows - 1));
           }
+          config.set("offline-vote-limit-rows", offlineVoteLimitRows);
           saveConfig();
         }
       }
