@@ -66,15 +66,15 @@ public class VotifierListener extends JavaPlugin implements Listener{
       String msg = config.getString("broadcast-message");
       msg = msg.replace("%name%", userName);
       msg = msg.replace("%service%", serviceName);
-      getServer().broadcastMessage(colorize(msg));
-
+      for(Player p : Bukkit.getOnlinePlayers()) {
+        p.sendMessage(colorize(msg));
+      }
       Player p = getServer().getPlayerExact(userName);
       if (p != null) {
         sendGift(p, config);
         p.sendMessage(colorize(config.getString("vote-message")));
       } else {
         int offlineVoteLimitRows = config.getInt("offline-vote-limit-rows");
-        getLogger().info("test1" + offlineVoteLimitRows);
         List<String> list = config.getStringList("offline-vote-list");
         String line = String.format("%s,%s", userName, serviceSha256);
         if(!list.contains(line)) {
