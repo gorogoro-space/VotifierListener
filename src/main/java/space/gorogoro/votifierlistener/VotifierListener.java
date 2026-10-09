@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
@@ -26,6 +25,9 @@ import com.vexsoftware.votifier.model.Vote;
 import com.vexsoftware.votifier.model.VotifierEvent;
 
 public class VotifierListener extends JavaPlugin implements Listener{
+
+  private static final Pattern JAVA_NAME = Pattern.compile("^[_a-zA-Z0-9]{3,16}$");
+  private static final Pattern BEDROCK_NAME_BODY = Pattern.compile("^[_a-zA-Z0-9]+$");
 
   @Override
   public void onEnable(){
@@ -49,9 +51,7 @@ public class VotifierListener extends JavaPlugin implements Listener{
       Vote vote = event.getVote();
 
       String userName = vote.getUsername();
-      Pattern pattern = Pattern.compile("^[_a-zA-Z0-9]{3,16}$");
-      Matcher matcher = pattern.matcher(userName);
-      if(!matcher.matches()) {
+      if(!isValidUserName(userName, config.getString("bedrock-prefix"))) {
         getLogger().warning("Invalid username. (" + userName + ")");
         return;
       }
@@ -83,7 +83,7 @@ public class VotifierListener extends JavaPlugin implements Listener{
           if(list.size() <= offlineVoteLimitRows) {
             config.set("offline-vote-list", list);
           } else {
-            config.set("offline-vote-list", list.subList(1, offlineVoteLimitRows));
+            config.set("offline-vote-list", list.subList(list.size() - offlineVoteLimitRows, list.size()));
           }
           config.set("offline-vote-limit-rows", offlineVoteLimitRows);
           saveConfig();
@@ -144,6 +144,17 @@ public class VotifierListener extends JavaPlugin implements Listener{
       cmd = cmd.replace("%name%", p.getName());
       getServer().dispatchCommand(Bukkit.getConsoleSender(), cmd);
     }
+  }
+
+  // Java 版の名前か、統合版の名前(Floodgate のプレフィックス + 英数字と _。全体で 16 文字以内)なら true
+  private static boolean isValidUserName(String userName, String bedrockPrefix) {
+    if(JAVA_NAME.matcher(userName).matches()) {
+      return true;
+    }
+    if(bedrockPrefix == null || bedrockPrefix.isEmpty() || userName.length() > 16 || !userName.startsWith(bedrockPrefix)) {
+      return false;
+    }
+    return BEDROCK_NAME_BODY.matcher(userName.substring(bedrockPrefix.length())).matches();
   }
 
   private static String colorize(String str) {

@@ -5,5 +5,7 @@ vote-command-list:
   - 'gacha ticket %name%'
   - 'money give %name% 1000'
 offline-vote-message: '&6オフライン時に投票されたプレゼントを送付しました(*´ω｀*)'
+# 統合版(Floodgate)のユーザー名の先頭に付く文字。Floodgate の config.yml の username-prefix と合わせる。空にすると統合版の名前を受け付けない
+bedrock-prefix: '.'
 offline-vote-limit-rows: 1500
 offline-vote-list:
